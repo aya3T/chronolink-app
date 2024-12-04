@@ -1,21 +1,14 @@
-'use server'
-
-import { doc, setDoc } from 'firebase/firestore'
+import { setDoc, doc } from 'firebase/firestore'
 import { v4 as uuid } from 'uuid'
+
+import type { CreateEventRequest } from '@/model/event'
 
 import { db } from '@/lib/firebase'
 
-export async function createEvent(params: {
-  name: string
-  desc: string
-  owner: string
-  startDate: string
-  endDate: string
-  participants: string[]
-  eventNumber: string
-}) {
+export async function POST(req: Request) {
+  const params: CreateEventRequest = await req.json()
   const id = uuid()
-  await setDoc(doc(db, 'event', id), {
+  const event = {
     id: id,
     name: params.name,
     desc: params.desc,
@@ -24,5 +17,7 @@ export async function createEvent(params: {
     endDate: params.endDate,
     participants: params.participants,
     eventNumber: params.eventNumber,
-  })
+  }
+  await setDoc(doc(db, 'event', id), event)
+  return Response.json(event)
 }

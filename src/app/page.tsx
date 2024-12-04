@@ -1,7 +1,7 @@
-'user client'
+'use client'
 import { Button, Heading, VStack } from '@chakra-ui/react'
 
-import { createEvent } from '@/repository/event/actions'
+import { createEvent } from '@/repository/event'
 
 export default function Initial() {
   async function onClick() {
@@ -17,14 +17,23 @@ export default function Initial() {
   }
 
   return (
-    <VStack h="100vh" align="center" justify="center" spaceY="md">
-      <Heading size="7xl" position="static">
+    <VStack h="100vh" align="center" justify="center" spaceY={10}>
+      <Heading size={{ base: '5xl', md: '7xl' }} position="static" color="teal">
         Chronolink
       </Heading>
-      <Button colorScheme="teal" onClick={onClick}>
-        ログイン
-      </Button>
-      <Button>新規登録</Button>
+      <VStack w="240px" spaceY={2}>
+        <Button w="full" colorPalette="teal">
+          ログイン
+        </Button>
+        <Button
+          w="full"
+          colorPalette="teal"
+          variant="surface"
+          onClick={onClick}
+        >
+          新規登録
+        </Button>
+      </VStack>
     </VStack>
   )
 }
