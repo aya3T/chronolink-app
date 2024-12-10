@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import type { CreateEventRequest } from '@/model/event'
 
-import { db } from '@/lib/firebase'
+import { db } from '@/lib/firebase/client'
 
 export async function POST(req: Request) {
   const params: CreateEventRequest = await req.json()

@@ -1,30 +1,60 @@
 'use client'
 
-import { Button, Fieldset, Input, Stack } from '@chakra-ui/react'
+import { useState } from 'react'
 
-import { Field } from '@/components/ui/field'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signIn as signInByNextAuth } from 'next-auth/react'
 
-export default function Login() {
+import { auth } from '@/lib/firebase/client'
+
+const SingIn = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const signIn = async () => {
+    if (!email) return
+    if (!password) return
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      )
+      const idToken = await userCredential.user.getIdToken()
+      await signInByNextAuth('credentials', {
+        idToken,
+        callbackUrl: '/',
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
-    <Fieldset.Root size="lg" maxW="md">
-      <Stack>
-        <Fieldset.Legend>ログイン</Fieldset.Legend>
-        <Fieldset.HelperText>入力してください。</Fieldset.HelperText>
-      </Stack>
-
-      <Fieldset.Content>
-        <Field label="名前">
-          <Input name="名前" />
-        </Field>
-
-        <Field label="メールアドレス">
-          <Input name="メール" type="メール" />
-        </Field>
-      </Fieldset.Content>
-
-      <Button type="submit" alignSelf="flex-start">
+    <div>
+      <input
+        type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+        placeholder="メールアドレス"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+        placeholder="パスワード"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          signIn()
+        }}
+      >
         ログイン
-      </Button>
-    </Fieldset.Root>
+      </button>
+    </div>
   )
 }
+
+export default SingIn

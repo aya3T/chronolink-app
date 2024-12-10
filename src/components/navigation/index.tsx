@@ -13,7 +13,23 @@ export function Navigation({
   return (
     <Stack h="100vh" pos="relative">
       {children}
-      <HStack w="100vw" h="80px" bg="white" pos="absolute" bottom={0}>
+      <HStack
+        w="100vw"
+        h="80px"
+        bg="white"
+        pos="absolute"
+        bottom={0}
+        justify="space-around"
+      >
+        <NavIcon name="home" path="/">
+          <TiHome />
+        </NavIcon>
+        <NavIcon name="home" path="/">
+          <TiHome />
+        </NavIcon>
+        <NavIcon name="home" path="/">
+          <TiHome />
+        </NavIcon>
         <NavIcon name="home" path="/">
           <TiHome />
         </NavIcon>
