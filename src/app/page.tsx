@@ -1,39 +1,22 @@
-'use client'
-import { Button, Heading, VStack } from '@chakra-ui/react'
+import { Heading, VStack } from '@chakra-ui/react'
+import { SignedOut, SignInButton, SignedIn, UserButton } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 
-import { createEvent } from '@/repository/event'
-
-export default function Initial() {
-  async function onClick() {
-    await createEvent({
-      name: 'sample',
-      desc: '説明です',
-      owner: '000',
-      startDate: '20241127',
-      endDate: '20241128',
-      participants: ['000'],
-      eventNumber: '00000000',
-    })
-  }
+export default async function Initial() {
+  const user = await currentUser()
 
   return (
     <VStack h="100vh" align="center" justify="center" spaceY={10}>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
       <Heading size={{ base: '5xl', md: '7xl' }} position="static" color="teal">
         Chronolink
       </Heading>
-      <VStack w="240px" spaceY={2}>
-        <Button w="full" colorPalette="teal">
-          ログイン
-        </Button>
-        <Button
-          w="full"
-          colorPalette="teal"
-          variant="surface"
-          onClick={onClick}
-        >
-          新規登録
-        </Button>
-      </VStack>
+      <SignedIn>{user?.emailAddresses[0].emailAddress}</SignedIn>
     </VStack>
   )
 }

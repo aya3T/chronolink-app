@@ -1,7 +1,8 @@
+import { ClerkProvider } from '@clerk/nextjs'
+
 import type { Metadata } from 'next'
 
 import { Provider } from '@/components/ui/provider'
-import { NextAuthProvider } from '@/provider/next-auth'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,12 +15,12 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <NextAuthProvider>
+    <ClerkProvider>
       <html lang="ja" suppressHydrationWarning>
         <body suppressHydrationWarning>
           <Provider>{children}</Provider>
         </body>
       </html>
-    </NextAuthProvider>
+    </ClerkProvider>
   )
 }

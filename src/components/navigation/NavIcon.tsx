@@ -7,13 +7,14 @@ type Props = {
   children: React.ReactNode
   name: string
   path: string
+  iconSize: string
 }
 
 export function NavIcon(props: Props) {
   return (
     <Link href={props.path}>
       <VStack>
-        <Icon>{props.children}</Icon>
+        <Icon boxSize={props.iconSize}>{props.children}</Icon>
         <Text>{props.name}</Text>
       </VStack>
     </Link>
